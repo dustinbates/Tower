@@ -1,0 +1,76 @@
+
+{
+  "folders": [
+    {
+      "path": "Tower.client",
+      "name": "client"
+    },
+    {
+      "path": "Tower",
+      "name": "server"
+    },
+    {
+      "name": "Tower",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.suggestSelection": "first",
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "javascript.referencesCodeLens.enabled": true,
+    "javascript.referencesCodeLens.showOnAllFunctions": true,
+    "typescript.implementationsCodeLens.enabled": true,
+    "typescript.referencesCodeLens.enabled": true,
+    "typescript.referencesCodeLens.showOnAllFunctions": true,
+    "js/ts.implicitProjectConfig.checkJs": true,
+    "files.exclude": {
+      "**/.nyc_*": true,
+      "**/coverage": true,
+      "**/node_modules": true
+    },
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "explorer.confirmDragAndDrop": false,
+    "eslint.alwaysShowStatus": true,
+    "eslint.format.enable": true,
+    "eslint.lintTask.enable": true,
+    "eslint.codeActionsOnSave.mode": "all",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    },
+    "files.associations": {
+      "*.vue": "vue"
+    },
+    "[vue]": {
+      "editor.defaultFormatter": "Vue.volar"
+    },
+    "workbench.colorCustomizations": {
+      "activityBar.activeBackground": "#c7158a",
+      "activityBar.background": "#c7158a",
+      "activityBar.foreground": "#e7e7e7",
+      "activityBar.inactiveForeground": "#e7e7e799",
+      "activityBarBadge.background": "#283a06",
+      "activityBarBadge.foreground": "#e7e7e7",
+      "commandCenter.border": "#e7e7e799",
+      "editorGroup.border": "#c7158a",
+      "sideBar.border": "#c7158a",
+      "statusBar.background": "#99106a",
+      "statusBar.border": "#99106a",
+      "statusBar.debuggingBackground": "#10993f",
+      "statusBar.debuggingBorder": "#10993f",
+      "statusBar.debuggingForeground": "#e7e7e7",
+      "statusBar.foreground": "#e7e7e7",
+      "statusBarItem.hoverBackground": "#c7158a",
+      "statusBarItem.remoteBackground": "#99106a",
+      "statusBarItem.remoteForeground": "#e7e7e7",
+      "tab.activeBorder": "#c7158a",
+      "titleBar.activeBackground": "#99106a",
+      "titleBar.activeForeground": "#e7e7e7",
+      "titleBar.border": "#99106a",
+      "titleBar.inactiveBackground": "#99106a99",
+      "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#99106a"
+  }
+}
