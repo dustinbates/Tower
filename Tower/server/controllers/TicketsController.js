@@ -13,7 +13,7 @@ export class TicketsController extends BaseController{
   async createTicket(req, res, next){
     try {
       const ticketData = req.body
-      ticketData.accountId = req.userInfo.Id
+      ticketData.accountId = req.userInfo.id
       const ticket = await ticketsService.createTicket(ticketData)
       return res.send(ticket)
     } catch (error) {
