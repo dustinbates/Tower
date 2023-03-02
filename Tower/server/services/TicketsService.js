@@ -4,13 +4,16 @@ import { BadRequest, Forbidden } from "../utils/Errors"
 import { towerEventsService } from "./TowerEventsService"
 
 class TicketsService{
-  async deleteTicket(ticketId, ticketData) {
+  async deleteTicket(ticketId) {
     const ticket = await dbContext.Tickets.findById(ticketId)
     if(!ticket){
       throw new BadRequest('Ticket does not exist')
     }
+    const event = await towerEventsService.getTowerEventById(ticket.eventId)
     await ticket.remove(ticketId)
     await ticket.populate('event')
+    event.capacity += 1
+    event.save()
     return ticket
   }
 

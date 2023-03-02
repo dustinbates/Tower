@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="col-md-3" v-for="e in towerEvents">
-        <TowerEvent :event="e"/>
+        <TowerEvent :towerEvent="e"/>
       </div>
     </div>
     

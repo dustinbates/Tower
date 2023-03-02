@@ -22,7 +22,7 @@
 
 
 <script>
-import { TowerEvent } from '../models/TowerEvent';
+import { TowerEvent } from '../models/TowerEvent.js';
 
 
 export default {
