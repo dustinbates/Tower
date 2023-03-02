@@ -1,8 +1,26 @@
+import { Logger } from "sass"
 import { dbContext } from "../db/DbContext"
 import { BadRequest, Forbidden } from "../utils/Errors"
 import { towerEventsService } from "./TowerEventsService"
 
 class TicketsService{
+  async deleteTicket(ticketId, ticketData) {
+    const ticket = await dbContext.Tickets.findById(ticketId)
+    if(!ticket){
+      throw new BadRequest('Ticket does not exist')
+    }
+    await ticket.remove(ticketId)
+    await ticket.populate('event')
+    return ticket
+  }
+
+  async getTowerEventTickets(eventId) {
+    const tickets = await dbContext.Tickets.find({eventId})
+    .populate('profile')
+    .populate('event')
+    return tickets
+  }
+
   async getMyTickets(accountId) {
     const tickets = await dbContext.Tickets.find({accountId})
     .populate('profile')
