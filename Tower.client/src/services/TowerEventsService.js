@@ -1,5 +1,6 @@
 import { AppState } from "../AppState"
 import { TowerEvent } from "../models/TowerEvent";
+import { logger } from "../utils/Logger";
 import { api } from "./AxiosService"
 
 class TowerEventsService{
@@ -11,6 +12,16 @@ class TowerEventsService{
     AppState.towerEvents = towerEvents
   }
 
+  async createEvent(formData){
+    const res = await api.post('api/events', formData)
+    logger.log('creating event', res.data)
+  }
+
+  async getTowerEventById(eventId){
+    AppState.currentEvent = null
+    const res = await api.get('api/events/' + eventId)
+    AppState.currentEvent = new TowerEvent(res.data)
+  }
 
 
 

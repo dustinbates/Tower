@@ -5,6 +5,7 @@ import { towerEventsService } from "./TowerEventsService"
 
 class TicketsService{
   async deleteTicket(ticketId) {
+
     const ticket = await dbContext.Tickets.findById(ticketId)
     if(!ticket){
       throw new BadRequest('Ticket does not exist')

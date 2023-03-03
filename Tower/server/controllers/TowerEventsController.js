@@ -9,11 +9,11 @@ export class TowerEventsController extends BaseController  {
     this.router
       .get('', this.getAllTowerEvents)
       .get('/:eventId', this.getTowerEventById)
+      .get('/:eventId/tickets', this.getTowerEventTickets)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createTowerEvent)
       .put('/:eventId', this.editTowerEvent)
       .delete('/:eventId', this.cancelTowerEvent)
-      .get('/:eventId/tickets', this.getTowerEventTickets)
   }
 
   async getTowerEventTickets(req, res, next){

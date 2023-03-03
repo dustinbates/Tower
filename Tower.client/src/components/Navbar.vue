@@ -19,9 +19,9 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
-          </router-link>
+          <button v-if="account.id" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#eventModal">
+            <i class="mdi mdi-plus-box">New Event</i>
+          </button>
         </li>
       </ul>
       <!-- LOGIN COMPONENT HERE -->
@@ -31,10 +31,14 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { AppState } from '../AppState';
 import Login from './Login.vue'
 export default {
   setup() {
-    return {}
+    return {
+      account: computed(() => AppState.account)
+    }
   },
   components: { Login }
 }

@@ -8,5 +8,13 @@ export class TowerEvent {
     this.startDate = data.startDate
     this.isCancelled = data.isCancelled
     this.coverImg = data.coverImg
+    this.type = data.type
+  }
+}
+
+export class AttendeeEvent extends TowerEvent {
+  constructor(data){
+    super(data)
+    this.attendeeId = data.id
   }
 }
