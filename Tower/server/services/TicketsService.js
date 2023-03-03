@@ -4,11 +4,14 @@ import { BadRequest, Forbidden } from "../utils/Errors"
 import { towerEventsService } from "./TowerEventsService"
 
 class TicketsService{
-  async deleteTicket(ticketId) {
+  async deleteTicket(ticketId, userId) {
 
     const ticket = await dbContext.Tickets.findById(ticketId)
     if(!ticket){
       throw new BadRequest('Ticket does not exist')
+    }
+    if(ticket.accountId != userId){
+      throw new Forbidden('Ticket does not belong to you')
     }
     const event = await towerEventsService.getTowerEventById(ticket.eventId)
     await ticket.remove(ticketId)
@@ -36,6 +39,9 @@ class TicketsService{
     const event = await towerEventsService.getTowerEventById(ticketData.eventId)
     if (event.isCanceled){
       throw new Forbidden('This Event has been cancelled')
+    }
+    if(event.capacity <= 0){
+      throw new BadRequest('This Event has no spots available')
     }
     const ticket = await dbContext.Tickets.create(ticketData)
     await ticket.populate('profile')
