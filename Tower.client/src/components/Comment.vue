@@ -1,9 +1,11 @@
 <template>
   <form @submit.prevent="createComment(eventId)">
-    <input type="text" class="form-control" id="body" v-model="editable.body">
-    <button type="submit" class="btn btn-success">
-      <i class="mdi mdi-send"></i>
-    </button>
+    <span class="d-flex">
+      <input type="text" class="form-control" id="body" v-model="editable.body" placeholder="Comment on this event">
+      <button type="submit" class="btn btn-success">
+        <i class="mdi mdi-send" title="Post Comment"></i>
+      </button>
+    </span>
   </form>
 </template>
 

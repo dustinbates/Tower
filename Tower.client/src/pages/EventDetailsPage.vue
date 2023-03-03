@@ -1,14 +1,22 @@
 <template>
-  <div v-if="towerEvent" class="container-fluid">
+  <div v-if="towerEvent" class="container-fluid bg-dark">
     <div class="row">
-      <div class="eventCard card text-start img-fluid text-light"
+      <div class="eventCard card text-start img-fluid text-light" id="header"
         :style="{ backgroundImage: `url('${towerEvent.coverImg}')` }">
         <div class="card-body">
           <div class="row">
             <div class="col-4">
-              <img src="" alt="">
+              <div v-if="towerEvent.creatorId == account.id && towerEvent.isCancelled === false">
+                <button 
+                  class="btn btn-danger" @click="cancelTowerEvent(towerEvent.id) ">
+                  <i class="mdi mdi-close-circle">Cancel Event</i>
+                </button>
+              </div>
+              <div v-else="towerEvent.isCancelled == true">
+                <button class="btn btn-danger" disabled>Event Cancelled</button>
+              </div>
             </div>
-            <div class="col-8">
+            <div class="col-8 mt-5">
               <span class="d-flex justify-content-between">
                 <span>
                   <h1 class="card-title">{{ towerEvent.name }}</h1>
@@ -17,16 +25,16 @@
                 <h3>Starts {{ new Date(towerEvent.startDate).toLocaleDateString() }}</h3>
               </span>
               <p class="card-text">{{ towerEvent.description }}</p>
-              <span class="d-flex justify-content-between">
+              <span class="d-flex justify-content-between align-items-end mt-5">
                 <h4>{{ towerEvent.capacity }} Spots Left</h4>
                 <div>
-                  <button v-if="!foundTicket " @click="createTicket()" :disabled="towerEvent.isCancelled || towerEvent.capacity == 0"
-                    class="btn btn-info">
-                    <p v-if="towerEvent.capacity != 0" class="p-0 m-0">Attend <i class="mdi mdi-human"></i></p> 
+                  <button v-if="!foundTicket" @click="createTicket()"
+                    :disabled="towerEvent.isCancelled || towerEvent.capacity == 0" class="btn btn-info elevation-1">
+                    <p v-if="towerEvent.capacity != 0" class="p-0 m-0">Attend <i class="mdi mdi-human"></i></p>
                     <p v-if="towerEvent.capacity <= 0" class="p-0 m-0 text-decoration-line-through">No Tickets Left</p>
                   </button>
                   <button v-else @click="removeTicket(myTicket?.attendeeId)" :disabled="towerEvent.isCancelled"
-                    class="btn btn-danger">
+                    class="btn btn-danger elevation-1">
                     Not Attend <i class="mdi mdi-run"></i>
                   </button>
                 </div>
@@ -37,27 +45,43 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-10 m-auto d-flex flex-row">
-        <div v-for="a in attendees">
-          <img class="attendee img-fluid rounded-circle p-1" :src="a.picture" alt="" :title="a.name">
-        </div>
+      <div class="col-12 bg-secondary pt-2">
+        <p class="m-0 p-0 text-dark">See who's attending</p>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-8 m-auto">
-        <Comment :eventId="towerEvent.id" />
-        <div v-for="c in comments">
-          <div class="d-flex bg-white rounded justify-content-start align-items-center p-2 m-2">
-            <img class="rounded-circle profilePic" :src="c.creator.picture" :alt="c.creator.name">
-            <h5>{{ c.creator.name }}</h5>
-            <p class="ps-5">{{ c.body }}</p>
-            <button v-if="c.creatorId == account.id" @click="deleteComment(c.id)" class="btn btn-danger">
-              <i class="mdi mdi-delete"></i>
-            </button>
+      <div class="col-12 m-auto d-flex flex-row bg-secondary p-2">
+        <div class="row">
+          <div v-for="a in attendees">
+            <img class="attendee img-fluid rounded-circle p-1" :src="a.picture" alt="" :title="a.name">
           </div>
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-9 m-auto mt-2">
+        <div class="card p-3 bg-secondary text-light">
+        <p class="text-dark">What people are saying</p>
+          <Comment :eventId="towerEvent.id" />
+          <div v-for="c in comments" class="mt-3">
+            <div class="row pe-3">
+              <div class="col-2 d-flex justify-content-center">
+                <img class="rounded-circle profilePic text-center p-0 m-0" :src="c.creator.picture" :alt="c.creator.name">
+              </div>
+              <div class="col-10 bg-white text-dark rounded">
+                <div class="d-flex justify-content-between align-items-center pt-1">
+                  <h5>{{ c.creator.name }}</h5>
+                  <!-- <button class="btn btn-danger" title="Delete Comment"> -->
+                    <i  v-if="c.creatorId == account.id" @click="deleteComment(c.id)" class="mdi mdi-delete-outline fs-5 selectable" title="Delete Comment" ></i>
+                  <!-- </button> -->
+                </div>
+                <div>
+                  <p class="ps-3">{{ c.body }}</p>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 </template>
 
@@ -128,7 +152,7 @@ export default {
       },
       async removeTicket(ticketId) {
         try {
-            await attendeesService.removeTicket(ticketId);
+          await attendeesService.removeTicket(ticketId);
         }
         catch (error) {
           Pop.error(error.message);
@@ -142,6 +166,15 @@ export default {
         } catch (error) {
           Pop.error(error)
         }
+      },
+      async cancelTowerEvent(eventId) {
+        try {
+          if (await Pop.confirm('Are you sure you want to cancel this event?', 'You will not be able to undo this', 'Confirm Cancel')) {
+            await towerEventsService.cancelTowerEvent(eventId)
+          }
+        } catch (error) {
+          Pop.error(error.mesasge)
+        }
       }
     };
   },
@@ -154,11 +187,18 @@ export default {
 .eventCard {
   height: 50vh;
   background-position: center;
-  background-size: cover;
+  background-size: cover; 
   text-shadow: 0 0 2px black;
 
 }
 
+.text-shadow{
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.593);
+}
+
+#header{
+  border-radius: 0
+}
 .attendee {
   height: 5em;
   width: 5em;

@@ -2,19 +2,18 @@
   <div class="container-fluid">
     <div v-if="myTickets[0]" class="row">
       <h1>My Tickets</h1>
-      <div v-for="t in myTickets" class="col-6">
-        <div class="card text-start text-dark">
+      <div v-for="t in myTickets" class="col-4">
+        <div class="ticket text-start p-4 mt-3" :style="{ backgroundImage: `url('${t.event.coverImg}')` }">
           <router-link :to="{ name: 'Details', params: { eventId: t.event.id } }">
-          <img class="card-img-top" :src="t.event.coverImg" alt="Title">
+            <h4 class="text-light">{{ t.event.name }}</h4>
           </router-link>
-          <div class="card-body">
-            <h4 class="card-title">{{ t.event.name }}</h4>
-            <p class="card-text">Starts {{ new Date(t.event.startDate).toLocaleDateString() }}</p>
-            <p class="card-text">{{ t.event.location }}</p>
-            <button @click="removeTicket(t.id)" :disabled="t.event.isCancelled" class="btn btn-danger">
-              Not Attend <i class="mdi mdi-run"></i>
-            </button>
+          <div class="">
+            <p class="m-0 p-0">Starts {{ new Date(t.event.startDate).toLocaleDateString() }}</p>
+            <p class="m-0 p-0">{{ t.event.location }}</p>
           </div>
+          <button @click="removeTicket(t.id)" :disabled="t.event.isCancelled" class="btn btn-danger mt-5 elevation-1">
+            Not Attend <i class="mdi mdi-run"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -60,4 +59,14 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.ticket{
+    height: 30vh;
+    object-fit: cover;
+    object-position: center;
+    background-position: center;
+    background-size: cover;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+</style>

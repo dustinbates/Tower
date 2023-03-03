@@ -2,12 +2,9 @@
   <header>
     <Navbar />
   </header>
-  <main>
+  <main class="bg-dark">
     <router-view />
   </main>
-   <footer class="bg-dark text-light">
-    Made with 💖 by CodeWorks
-  </footer>
   <ModalComponent id="eventModal">
     <CreateEvent />
   </ModalComponent>
@@ -36,6 +33,8 @@ export default {
   --main-height: calc(100vh - 32px - 64px);
 }
 
+main{
+}
 
 footer {
   display: grid;

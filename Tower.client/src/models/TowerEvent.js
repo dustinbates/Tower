@@ -6,9 +6,10 @@ export class TowerEvent {
     this.location = data.location
     this.capacity = data.capacity
     this.startDate = data.startDate
-    this.isCancelled = data.isCancelled
+    this.isCancelled = data.isCanceled
     this.coverImg = data.coverImg
     this.type = data.type
+    this.creatorId = data.creatorId
   }
 }
 
