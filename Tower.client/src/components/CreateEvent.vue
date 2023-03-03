@@ -49,6 +49,7 @@
 
 <script>
 import { ref } from 'vue';
+import { router } from '../router';
 import { towerEventsService } from '../services/TowerEventsService';
 import Pop from '../utils/Pop';
 
@@ -62,8 +63,10 @@ export default {
       async createEvent(){
         try {
           const formData = editable.value
-          await towerEventsService.createEvent(formData)
+          const towerEvent = await towerEventsService.createEvent(formData)
+          console.log(towerEvent);
           editable.value = { category: 'concert'}
+          router.push({name: 'Details', params: {eventId: towerEvent.id}})
         } catch (error) {
           Pop.error(error.message)
         }

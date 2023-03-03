@@ -15,6 +15,7 @@ class TowerEventsService{
   async createEvent(formData){
     const res = await api.post('api/events', formData)
     logger.log('creating event', res.data)
+    return res.data
   }
 
   async getTowerEventById(eventId){

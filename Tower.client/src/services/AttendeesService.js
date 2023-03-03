@@ -13,22 +13,28 @@ class AttendeesService {
 
   async createTicket(eventData){
     const res = await api.post('api/tickets', eventData)
+    console.log(res.data);
     AppState.attendees.push(new Attendee(res.data))
     AppState.currentEvent.capacity -= 1
     logger.log(res.data)
-    AppState.myTickets.push(new AttendeeEvent(res.data))
+    // AppState.myTickets.push(res.data)
   }
 
   async removeTicket(ticketId){
-    const res = await api.delete(`api/tickets/${ticketId}`)
+    console.log(ticketId);
+    const res = await api.delete('api/tickets/' + ticketId)
     logger.log("REMOVED TICKET", res.data)
-    AppState.currentEvent.capacity += 1
+    if(AppState.currentEvent != {}){
+      AppState.currentEvent.capacity += 1
+    }
+    AppState.myTickets = AppState.myTickets.filter(t => t.eventId != res.data.eventId)
+    console.log(AppState.myTickets);
     AppState.attendees = AppState.attendees.filter(t => t.attendeeId != ticketId)
   }
 
   async getMyTickets(){
     const res = await api.get('account/tickets')
-    AppState.myTickets = res.data.map(t => new AttendeeEvent(t))
+    AppState.myTickets = res.data
   }
 }
 
