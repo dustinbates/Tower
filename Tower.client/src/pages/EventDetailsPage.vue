@@ -7,59 +7,62 @@
           <div class="row">
             <div class="col-4">
               <div v-if="towerEvent.creatorId == account.id && towerEvent.isCancelled === false">
-                <button 
-                  class="btn btn-danger" @click="cancelTowerEvent(towerEvent.id) ">
+                <button class="btn btn-danger" @click="cancelTowerEvent(towerEvent.id)">
                   <i class="mdi mdi-close-circle">Cancel Event</i>
                 </button>
               </div>
-              <div v-else="towerEvent.isCancelled == true">
+              <div v-if="towerEvent.isCancelled == true">
                 <button class="btn btn-danger" disabled>Event Cancelled</button>
               </div>
             </div>
             <div class="col-8 mt-5">
-              <span class="d-flex justify-content-between">
-                <span>
-                  <h1 class="card-title">{{ towerEvent.name }}</h1>
-                  <h5>{{ towerEvent.location }}</h5>
+              <div class="glass-card">
+                <span class="d-flex justify-content-between">
+                  <span>
+                    <h1 class="card-title">{{ towerEvent.name }}</h1>
+                    <h5>{{ towerEvent.location }}</h5>
+                  </span>
+                  <h3>Starts {{ new Date(towerEvent.startDate).toLocaleDateString() }}</h3>
                 </span>
-                <h3>Starts {{ new Date(towerEvent.startDate).toLocaleDateString() }}</h3>
-              </span>
-              <p class="card-text">{{ towerEvent.description }}</p>
-              <span class="d-flex justify-content-between align-items-end mt-5">
-                <h4>{{ towerEvent.capacity }} Spots Left</h4>
-                <div>
-                  <button v-if="!foundTicket" @click="createTicket()"
-                    :disabled="towerEvent.isCancelled || towerEvent.capacity == 0" class="btn btn-info elevation-1">
-                    <p v-if="towerEvent.capacity != 0" class="p-0 m-0">Attend <i class="mdi mdi-human"></i></p>
-                    <p v-if="towerEvent.capacity <= 0" class="p-0 m-0 text-decoration-line-through">No Tickets Left</p>
-                  </button>
-                  <button v-else @click="removeTicket(myTicket?.attendeeId)" :disabled="towerEvent.isCancelled"
-                    class="btn btn-danger elevation-1">
-                    Not Attend <i class="mdi mdi-run"></i>
-                  </button>
-                </div>
-              </span>
+                <p class="card-text">{{ towerEvent.description }}</p>
+                <span class="d-flex justify-content-between align-items-end mt-5">
+                  <h4>{{ towerEvent.capacity }} Spots Left</h4>
+                  <div>
+                    <button v-if="!foundTicket" @click="createTicket()"
+                      :disabled="towerEvent.isCancelled || towerEvent.capacity == 0" class="btn btn-info elevation-1">
+                      <p v-if="towerEvent.capacity != 0" class="p-0 m-0">Attend <i class="mdi mdi-human"></i></p>
+                      <p v-if="towerEvent.capacity <= 0" class="p-0 m-0 text-decoration-line-through">No Tickets Left</p>
+                    </button>
+                    <button v-else @click="removeTicket(myTicket?.attendeeId)" :disabled="towerEvent.isCancelled"
+                      class="btn btn-danger elevation-1">
+                      Not Attend <i class="mdi mdi-run"></i>
+                    </button>
+                  </div>
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-12 bg-secondary pt-2">
+      <div class="col-12 bg-primary pt-2">
         <p class="m-0 p-0 text-dark">See who's attending</p>
       </div>
-      <div class="col-12 m-auto d-flex flex-row bg-secondary p-2">
+      <div class="col-12 m-auto d-flex flex-row bg-primary p-2">
         <div class="row">
-          <div v-for="a in attendees">
-            <img class="attendee img-fluid rounded-circle p-1" :src="a.picture" alt="" :title="a.name">
+          <div class="col-12 d-flex">
+            <div v-for="a in attendees">
+              <img class="attendee img-fluid rounded-circle p-1" :src="a.picture" alt="" :title="a.name">
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-9 m-auto mt-2">
-        <div class="card p-3 bg-secondary text-light">
-        <p class="text-dark">What people are saying</p>
+        <div class="card p-3 bg-light text-light">
+          <p class="text-dark">What people are saying</p>
           <Comment :eventId="towerEvent.id" />
           <div v-for="c in comments" class="mt-3">
             <div class="row pe-3">
@@ -69,19 +72,21 @@
               <div class="col-10 bg-white text-dark rounded">
                 <div class="d-flex justify-content-between align-items-center pt-1">
                   <h5>{{ c.creator.name }}</h5>
-                  <!-- <button class="btn btn-danger" title="Delete Comment"> -->
-                    <i  v-if="c.creatorId == account.id" @click="deleteComment(c.id)" class="mdi mdi-delete-outline fs-5 selectable" title="Delete Comment" ></i>
-                  <!-- </button> -->
+                  <i v-if="c.creatorId == account.id" @click="deleteComment(c.id)"
+                    class="mdi mdi-delete-outline fs-5 selectable" title="Delete Comment" style="color: red"></i>
                 </div>
                 <div>
                   <p class="ps-3">{{ c.body }}</p>
                 </div>
               </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div v-else>
+    <Loading />
   </div>
 </template>
 
@@ -95,6 +100,7 @@ import { AppState } from '../AppState.js'
 import { attendeesService } from '../services/AttendeesService.js'
 import Comment from '../components/Comment.vue';
 import { commentsService } from '../services/CommentsService.js'
+import Loading from '../components/Loading.vue';
 
 export default {
   setup() {
@@ -178,30 +184,37 @@ export default {
       }
     };
   },
-  components: { Comment }
+  components: { Comment, Loading }
 }
 </script>
 
 
 <style lang="scss" scoped>
 .eventCard {
-  height: 50vh;
+  height: 60vh;
   background-position: center;
-  background-size: cover; 
+  background-size: cover;
   text-shadow: 0 0 2px black;
 
 }
 
-.text-shadow{
+.glass-card {
+  background-color: rgba(43, 52, 226, 0.264);
+  padding: 1em;
+  border-radius: 5px
+}
+
+.text-shadow {
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.593);
 }
 
-#header{
+#header {
   border-radius: 0
 }
+
 .attendee {
-  height: 5em;
-  width: 5em;
+  height: 3em;
+  width: 3em;
 }
 
 .profilePic {

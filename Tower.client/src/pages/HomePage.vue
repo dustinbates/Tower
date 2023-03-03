@@ -1,11 +1,11 @@
 <template>
   <div  class="container-fluid">
     <div class="row">
-      <div class="col-12 px-0">
-        <div class="card header mx-0 px-0" id="header">
-          <div class="row">
-            <div class="col-12">
-              <p class="fs-1 ms-5 p-3 header-text">
+      <div class="col-12">
+        <div class="card header" id="header">
+          <div class="row px-0">
+            <div class="col-12 px-0">
+              <p class="fs-1 m-4 p-3 header-text">
                 Get ahead of the scalpers. <br>
                 Reserve your seat now with <br>
                 real events for real people.</p>
