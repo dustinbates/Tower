@@ -148,6 +148,7 @@ export default {
       myTicket: computed(() => AppState.attendees.find(t => t.eventId == AppState.currentEvent.id)),
       attendees: computed(() => AppState.attendees),
       comments: computed(() => AppState.comments),
+      isCancelled: computed(() => AppState.towerEvents.isCanceled),
       async createTicket() {
         try {
           await attendeesService.createTicket({ eventId: route.params.eventId });

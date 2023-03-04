@@ -27,6 +27,7 @@ class TowerEventsService{
   async cancelTowerEvent(eventId){
     const res = await api.delete('api/events/' + eventId)
     logger.log('canceled event', res.data)
+    AppState.currentEvent = new TowerEvent(res.data)
   }
 
 }
