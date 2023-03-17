@@ -28,7 +28,7 @@ export default {
         try {
           const formData = editable.value
           formData.eventId = eventId
-          console.log(formData);
+          // console.log(formData);
           await commentsService.createComment(formData)
           editable.value= ref({})
         } catch (error) {

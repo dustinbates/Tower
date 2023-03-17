@@ -36,7 +36,7 @@ export default {
         async function getMyTickets() {
             try {
                 await attendeesService.getMyTickets();
-                console.log(AppState.myTickets);
+                // console.log(AppState.myTickets);
             }
             catch (error) {
                 Pop.error(error);

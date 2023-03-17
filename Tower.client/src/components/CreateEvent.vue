@@ -64,7 +64,7 @@ export default {
         try {
           const formData = editable.value
           const towerEvent = await towerEventsService.createEvent(formData)
-          console.log(towerEvent);
+          // console.log(towerEvent);
           editable.value = { category: 'concert'}
           router.push({name: 'Details', params: {eventId: towerEvent.id}})
         } catch (error) {
