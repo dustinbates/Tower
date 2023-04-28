@@ -1,5 +1,5 @@
 <template>
-  <div  class="container-fluid">
+  <div class="container-fluid">
     <div class="row">
       <div class="col-12">
         <div class="card header" id="header">
@@ -57,7 +57,7 @@ export default {
     });
     return {
       towerEvents: computed(() => {
-        if(!filterCategory.value){
+        if (!filterCategory.value) {
           return AppState.towerEvents
         }
         else {
@@ -66,7 +66,7 @@ export default {
       }),
       account: computed(() => AppState.account),
 
-      changeFilterCategory(category){
+      changeFilterCategory(category) {
         filterCategory.value = category
       }
     };
@@ -78,21 +78,21 @@ export default {
 
 
 <style scoped lang="scss">
-.header{
-  background-image: url(https://s3-alpha-sig.figma.com/img/cd1b/eb35/3224c652f40c0754047c232b09e71cc3?Expires=1678665600&Signature=Eyhb7AmoQ7SmEHCOGFyBmiDbqXQ6oUedn0p5KC3XdkYTSCu-ojlxgVDGtNz7XMzYFdSfrMhdgs8FEmpzskMmx1CeFbzoh97gBV8o~RHCEGhjJsLZNzsk3foFvsCLTV6raYgF0eIfTlmfpa7AkMl7uVHTkxrXb8OAYUUyXVIoHJmSxaqvPMtnz3E7A1DXO1orLW6~nKOMpEset0lvLd8wA31tNuAEFIWQAvlA-fILWWgjEalN4yQN9gGZm-FZMBzUxYfxHs9z0U3hGyVJfrhmllhVmUnNxI9inXOaTB4b--1X71AYfukAMRZIGii7jPvam-R-G~pqi1evh-hFpzNSzQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4);
+.header {
+  background-image: url(../assets/img/chairs.jpeg);
   background-position: top;
   background-size: cover;
   height: 40vh;
   width: auto;
 }
 
-.header-text{
+.header-text {
   color: rgb(215, 228, 250);
   text-shadow: 1px 1px 2px black;
 
 }
 
-#header{
+#header {
   border-radius: 0
 }
 </style>
